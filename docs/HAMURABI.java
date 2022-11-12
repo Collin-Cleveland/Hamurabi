@@ -71,8 +71,8 @@ public class HAMURABI {
 		yeild = (int) (Math.random() * 5 + 1);
 		harvest = temp * yeild;
 		temp = (int) (Math.random() * 5 + 1);
-		if (temp % 2 != 1)
-			eaten = (stores / temp);
+		if (temp % 2 != 1) //40%
+			eaten = (stores / temp); //rats?
 		else 
 			eaten = 0;
 		stores += (harvest - eaten);

@@ -17,6 +17,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
     public int immigrants = 0;
     public int eaten = 0;
     public int plagueDeaths = 0;
+    public int totalDeaths = 0;
 
 
 
@@ -36,18 +37,24 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
             askHowMuchGrainToFeedPeople();
             askHowManyAcresToPlant();
             howManyPeopleStarved = starvationDeaths(population,peopleFed * 20);
-            if(uprising(population,howManyPeopleStarved)) inputError(1); //people ate you
+            if(uprising(population,howManyPeopleStarved)){
+                inputError(1);
+                finishGame();
+            }
             immigrants = immigrants(population,acresOwned,bushelsOwned);
             plagueDeaths = plagueDeaths(population);
             eaten = grainEatenByRats(bushelsOwned);
             population = population - howManyPeopleStarved + immigrants - plagueDeaths;
             bushelsOwned = bushelsOwned - eaten;
-
+            totalDeaths += howManyPeopleStarved;
+            if(population<=0){
+                inputError(1);
+                finishGame();
+            }
             // declare local variables here: grain, population, etc.
             // statements go after the declations
-
         }
-        System.out.println("Game over");
+        System.out.println("You won");
 
     }
     public void printReport(){
@@ -110,6 +117,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         } while(input > bushelsOwned); //check negative
         bushelsOwned -= input;
         peopleFed = input /20;
+        //population calculation
     }
 
     public void askHowManyAcresToPlant(){
@@ -161,13 +169,22 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         switch(errorCode){
             case 0: errorReason = "Think long and hard then try again.";
             break;
-            case 1: errorReason = "You starved too many people so they ate you instead.";
+            case 1: errorReason = "You starved too many people so they ate you instead."; //uprising
             break;
         }
         System.out.println(errorReason);
 
 
     }
+    public void finishGame(){
+        String report =
+                        "This is your final report.\n" +
+                        "You made it to year " + year + " \n" +
+                        "You starved " + totalDeaths + " people \n" +
+                        "Each person owns " + acresOwned/population + "\n";
+        System.out.println(report);
+    }
+
 
     //other methods go here
 }

@@ -16,6 +16,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
     public int howManyPeopleStarved = 0;
     public int immigrants = 0;
     public int eaten = 0;
+    public int plagueDeaths = 0;
 
 
 
@@ -33,8 +34,15 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
             determineBuySellNothing();
             askHowMuchGrainToFeedPeople();
             askHowManyAcresToPlant();
+            howManyPeopleStarved = starvationDeaths(population,peopleFed * 20);
+            if(uprising(population,howManyPeopleStarved)) inputError(1); //people ate you
+            immigrants = immigrants(population,acresOwned,bushelsOwned);
+            plagueDeaths = plagueDeaths(population);
+            population = population - howManyPeopleStarved + immigrants - plagueDeaths;
+
             // declare local variables here: grain, population, etc.
             // statements go after the declations
+
         }
         System.out.println("Game over");
 
@@ -49,7 +57,8 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
                 "Acres owned: " +  acresOwned + "\n" +
                 "Harvest: " + yield + " per acre \n" +
                 "Rats ate " + eaten + " bushels \n" +
-                "Bushels owned: " + bushelsOwned + "\n";
+                "Bushels owned: " + bushelsOwned + "\n" +
+                "Deaths from plague: " + plagueDeaths + "\n";
         System.out.println(report);
     }
     public void determineBuySellNothing(){
@@ -59,7 +68,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
             input = scanner.nextInt();
         }while(input != 0 && input!=1 && input !=2);
         if(input == 0) askHowManyAcresToBuy();
-        if(input == 1) askHowManyAcresToSell();
+        else if(input == 1) askHowManyAcresToSell();
     }
 
 
@@ -107,7 +116,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
             input = scanner.nextInt();
             if(input < 0) inputError(0);
             else if (input > acresOwned) System.out.println("You don't have enough acres for that buddy.");
-            else if (input /2 > bushelsOwned) System.out.println("You don't have enough bushels my guy.");
+            else if (input > bushelsOwned * 2) System.out.println("You don't have enough bushels my guy.");
             else if(input > population *  10) System.out.println("You don't have the manpower for that bozo.");
         }while(input < 0 || input > acresOwned || input /2 > bushelsOwned || input > population *  10);
         bushelsOwned-= input * 2;
@@ -116,24 +125,29 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
     }
 
     public int plagueDeaths(int population){
+        if((int) (Math.random() * 100 + 1) <= 15) return this.population = (int) (Math.ceil(population / 2));
         return 0;
     }
     public int starvationDeaths(int population, int bushelsFedToPeople){
-        return 0;
+        if(bushelsFedToPeople / 20  > population) return 0;
+        return this.howManyPeopleStarved = population - (bushelsFedToPeople / 20);
     }
     public boolean uprising(int population, int howManyPeopleStarved){
-        return howManyPeopleStarved/population  >= .45; // pass this into this
+        return population * .45 <= howManyPeopleStarved; // pass this into this
     }
     public int immigrants(int population, int acresOwned, int grainInStorage){
+        if(howManyPeopleStarved > 0) return 0;
        return this.immigrants = (20* acresOwned + grainInStorage) / (100 * population) + 1; //grainInStorage = bushelsOwned
     }
 //    public int harvest(int acres, int bushelsUsedAsSeed){
 //        return 0;
 //    }
     public int harvest(int acres){
-        return acres * yield;
+        if(acres ==  0)return 0;
+        return acres * (int) (Math.random() * 6 + 1);
     }
     public int grainEatenByRats(int bushels){
+
         return 0;
     }
     public int newCostOfLand(){
@@ -144,7 +158,8 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         switch(errorCode){
             case 0: errorReason = "Think long and hard then try again.";
             break;
-
+            case 1: errorReason = "You starved too many people so they ate you instead.";
+            break;
         }
         System.out.println(errorReason);
 

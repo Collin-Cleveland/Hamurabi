@@ -63,7 +63,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
             // statements go after the declations
         }
         finishGame();
-        System.out.println("You won");
+        System.out.println("Game over");
 
     }
     public void printReport(){

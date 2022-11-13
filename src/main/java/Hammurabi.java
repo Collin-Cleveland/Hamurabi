@@ -22,6 +22,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
 
 
 
+
     public static void main(String[] args) { // required in every Java program
         new Hammurabi().playGame();
     }
@@ -38,7 +39,9 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
             if(uprising(population,howManyPeopleStarved)) inputError(1); //people ate you
             immigrants = immigrants(population,acresOwned,bushelsOwned);
             plagueDeaths = plagueDeaths(population);
+            eaten = grainEatenByRats(bushelsOwned);
             population = population - howManyPeopleStarved + immigrants - plagueDeaths;
+            bushelsOwned = bushelsOwned - eaten;
 
             // declare local variables here: grain, population, etc.
             // statements go after the declations
@@ -147,7 +150,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
         return acres * (int) (Math.random() * 6 + 1);
     }
     public int grainEatenByRats(int bushels){
-
+        if(Math.random()*100 + 1 <= 40) return (int) (Math.random() * 20 + 10);
         return 0;
     }
     public int newCostOfLand(){

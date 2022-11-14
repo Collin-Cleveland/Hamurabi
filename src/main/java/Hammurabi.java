@@ -141,7 +141,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
             else if (input > population * 10) System.out.println("You don't have the manpower for that bozo.");
         } while (input < 0 || input > acresOwned || input / 2 > bushelsOwned || input > population * 10);
         bushelsOwned -= input * 2;
-        yield = harvest(input) / input; // 1 - 6 yield
+        yield = (int)(harvest(input) / (float) (input)); // 1 - 6 yield
         bushelsOwned += yield * input; //calls harvest method for input
     }
 

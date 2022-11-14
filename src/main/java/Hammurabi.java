@@ -79,7 +79,7 @@ public class Hammurabi {         // must save in a file named Hammurabi.java
 
     public void determineBuySellNothing() {
         do {
-            System.out.println("Buy/Sell Acres? Enter 0 for buy 1 for sell 2 for nothing");
+            System.out.println("Buy/Sell Acres? Enter Buy:0  || Sell:1 ||  None:2");
             input = isNumberCheck();
 
         } while (input != 0 && input != 1 && input != 2);
